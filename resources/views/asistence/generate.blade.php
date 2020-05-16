@@ -1,4 +1,7 @@
 @extends('layouts.azia')
+@section('css')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
+@endsection
 @section('content')
     <div class="row">
         <div class="col-12">
@@ -28,6 +31,7 @@
     </div>
 @endsection
 @section('scripts')
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
     <script>
         $('#datetimepicker3').datetimepicker({
             format: 'LT',

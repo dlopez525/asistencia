@@ -1,5 +1,6 @@
 @extends('layouts.azia')
 @section('css')
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <style>
         .dt_icons i {font-size: 1.4em}
     </style>
@@ -43,6 +44,12 @@
         </div>
         <div class="col-2">
             <div class="form-group">
+                <label>Filtrar por Fecha</label>
+                <input type="text" class="form-control" id="dtr">
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="form-group">
                 <button class="btn btn-danger mt-4" id="pdf">PDF</button>
             </div>
         </div>
@@ -68,6 +75,7 @@
     </div>
 @endsection
 @section('scripts')
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script>
         let tbl_data = $("#tbl_data").DataTable({
             'pageLength' : 15,
@@ -85,6 +93,13 @@
                 'type' : 'get',
                 'data': function(d) {
                     d.teacher = $('#user').val();
+                    let rangeDates = $('#dtr').val();
+                    var arrayDates = rangeDates.split(" ");
+                    var dateSpecificOne =  arrayDates[0].split("/");
+                    var dateSpecificTwo =  arrayDates[2].split("/");
+
+                    d.dateOne = dateSpecificOne[2]+'-'+dateSpecificOne[1]+'-'+dateSpecificOne[0];
+                    d.dateTwo = dateSpecificTwo[2]+'-'+dateSpecificTwo[1]+'-'+dateSpecificTwo[0];
                 }
             },
             'columns': [
@@ -112,6 +127,9 @@
         });
         $('#user').on('change', function() {
             tbl_data.ajax.reload();
+        });
+        $('#dtr').change(function() {
+             tbl_data.ajax.reload();
         });
         $('body').on('click', '.deleteAsistence', function(e) {
             e.preventDefault();
@@ -145,8 +163,54 @@
 
         $('#pdf').click(function(){
             let profesor = $('#user').val();
-            let url = '/horarios/asistencia/pdf?teacher=' + profesor;
+            let rangeDates = $('#dtr').val();
+            var arrayDates = rangeDates.split(" ");
+            var dateSpecificOne =  arrayDates[0].split("/");
+            var dateSpecificTwo =  arrayDates[2].split("/");
+
+            var dateOne = dateSpecificOne[2]+'-'+dateSpecificOne[1]+'-'+dateSpecificOne[0];
+            var dateTwo = dateSpecificTwo[2]+'-'+dateSpecificTwo[1]+'-'+dateSpecificTwo[0];
+
+            let url = '/horarios/asistencia/pdf?teacher=' + profesor +'&dateOne=' + dateOne + '&dateTwo=' + dateTwo;
             $(location).attr('href',url);
+        });
+        $('#dtr').daterangepicker({
+            "locale": {
+                "format": "DD/MM/YYYY",
+                "separator": " - ",
+                "applyLabel": "Aplicar",
+                "cancelLabel": "Cancelar",
+                "fromLabel": "Desde",
+                "toLabel": "Hasta",
+                "customRangeLabel": "Custom",
+                "weekLabel": "W",
+                "daysOfWeek": [
+                    "Do",
+                    "Lu",
+                    "Ma",
+                    "Mi",
+                    "Ju",
+                    "Vi",
+                    "Sa"
+                ],
+                "monthNames": [
+                    "Enero",
+                    "Febrero",
+                    "Marzo",
+                    "Abril",
+                    "Mayo",
+                    "Junio",
+                    "Julio",
+                    "Agosto",
+                    "Septiembre",
+                    "Octubre",
+                    "Noviembre",
+                    "Diciembre"
+                ],
+                "firstDay": 1
+            },
+        }, function() {
+        // console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
         });
     </script>
 @endsection

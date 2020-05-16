@@ -26,6 +26,9 @@ class AsistenceController extends Controller
             if($request->get('teacher') != ''){
                 $query->where('user_id', $request->get('teacher'));
             }
+            if($request->get('dateOne') != ''){
+                $query->whereBetween('date',  [$request->get('dateOne'), $request->get('dateTwo')]);
+            }
         })->get();
 
         return datatables()->of($schedule)->toJson();
@@ -115,6 +118,9 @@ class AsistenceController extends Controller
         ->where(function ($query) use($request) {
             if($request->get('teacher') != ''){
                 $query->where('user_id', $request->get('teacher'));
+            }
+            if($request->get('dateOne') != ''){
+                $query->whereBetween('date',  [$request->get('dateOne'), $request->get('dateTwo')]);
             }
         })->get();
 
