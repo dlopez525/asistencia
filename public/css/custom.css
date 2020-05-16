@@ -1,0 +1,22 @@
+.modal-dialog-activities .modal-content {
+    min-height: 650px;
+    max-height: 850px;
+}
+
+.modal-dialog-activities #activity_details {
+    max-height: 450px;
+    height: 450px;
+    overflow-y: auto;
+}
+
+#document-dropzone {
+    border: 1px dashed indigo;
+    border-radius: 5px;
+    width: 100%;
+    height: 150px;
+}
+
+.dz-message {
+    width: 100%;
+    text-align: center;
+}
