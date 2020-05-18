@@ -25,6 +25,9 @@
     <div class="row">
         <div class="col-12 col-lg-6">
             {!! Form::open(['route' => ['asistence.store']]) !!}
+                @php
+                    $date = '';
+                @endphp
                 @include('asistence.partials.asistence')
             {!! Form::close() !!}
         </div>

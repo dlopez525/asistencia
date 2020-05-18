@@ -17,6 +17,6 @@
 <div class="row">
     <div class="col-4">
         {!! Form::submit('Guardar cambios', ['class' => 'btn btn-primary']); !!}
-        <a href="{{ route('users.index') }}" class="btn btn-light">Cancelar</a>
+        <a href="{{ route('roles.index') }}" class="btn btn-light">Cancelar</a>
     </div>
 </div>

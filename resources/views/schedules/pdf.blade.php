@@ -9,6 +9,7 @@
             <th width="80px">Viernes</th>
             <th width="80px">Desde</th>
             <th width="80px">Hasta</th>
+            <th width="80px">Curso</th>
         </tr>
     </thead>
     <tbody>
@@ -22,6 +23,7 @@
                 <td>{{ $schedule->v ? 'Si' : '' }}</td>
                 <td>{{ $schedule->time_from }}</td>
                 <td>{{ $schedule->time_to }}</td>
+                <td>{{ $schedule->course }}</td>
             </tr>
         @endforeach
     </tbody>

@@ -25,6 +25,9 @@
     <div class="row">
         <div class="col-12 col-lg-6">
             {!! Form::model($schedule, ['route' => ['asistence.update', $schedule->id]]) !!}
+                @php
+                    $date = date('Y-m-d', strtotime($schedule->date));
+                @endphp
                 @include('asistence.partials.asistence')
             {!! Form::close() !!}
         </div>

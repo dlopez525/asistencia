@@ -21,12 +21,19 @@ class ShedulesController extends Controller
 
     public function dt(Request $request)
     {
-        $schedule = Schedule::with('user')
-        ->where(function ($query) use($request) {
-            if($request->get('teacher') != ''){
-                $query->where('user_id', $request->get('teacher'));
-            }
-        })->get();
+        if (auth()->user()->role_id == 2) {
+            $schedule = Schedule::with('user')
+            ->where(function ($query) use($request) {
+                $query->where('user_id', auth()->user()->id);
+            })->get();
+        } else {
+            $schedule = Schedule::with('user')
+            ->where(function ($query) use($request) {
+                if($request->get('teacher') != ''){
+                    $query->where('user_id', $request->get('teacher'));
+                }
+            })->get();
+        }
 
         return datatables()->of($schedule)->toJson();
     }
@@ -53,6 +60,7 @@ class ShedulesController extends Controller
             $schedule->v = $request->v;
             $schedule->time_from = $request->time_from;
             $schedule->time_to = $request->time_to; 
+            $schedule->course = $request->course; 
             $schedule->save();
 
             DB::commit();
@@ -88,6 +96,7 @@ class ShedulesController extends Controller
             $schedule->v = $request->v;
             $schedule->time_from = $request->time_from;
             $schedule->time_to = $request->time_to; 
+            $schedule->course = $request->course; 
             $schedule->update();
 
             DB::commit();

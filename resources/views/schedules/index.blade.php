@@ -1,8 +1,13 @@
 @extends('layouts.azia')
 @section('css')
     <style>
-        .dt_icons i {font-size: 1.4em}
+        .dt_icons i {font-size: 1.4em; display: none;}
     </style>
+    @if (auth()->user()->role_id != 2)
+    <style>
+        .dt_icons i {font-size: 1.4em; display: block;}
+    </style>
+    @endif
 @endsection
 @section('content')
     <div class="row">
@@ -10,11 +15,13 @@
             <h2 class="az-content-title">Horarios</h2>
         </div>
     </div>
-    <div class="row">
-        <div class="col mb-4">
-            <a href="{{ route('shedules.create') }}" class="btn btn-primary">Crear Nuevo Horario</a>
+    @if (auth()->user()->role_id != 2)
+        <div class="row">
+            <div class="col mb-4">
+                <a href="{{ route('shedules.create') }}" class="btn btn-primary">Crear Nuevo Horario</a>
+            </div>
         </div>
-    </div>
+    @endif
     <div class="row">
         <div class="col-12" id="messages">
             @if (session('info'))
@@ -30,17 +37,19 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-2">
-            <div class="form-group">
-                <label>Filtrar por Docente</label>
-                <select id="user" class="form-control">
-                    <option value="">Todos</option>
-                    @foreach ($teachers as $t)
-                        <option value="{{ $t->id }}">{{ $t->name }} {{ $t->lastname }}</option>
-                    @endforeach
-                </select>
+        @if (auth()->user()->role_id != 2)    
+            <div class="col-2">
+                <div class="form-group">
+                    <label>Filtrar por Docente</label>
+                    <select id="user" class="form-control">
+                        <option value="">Todos</option>
+                        @foreach ($teachers as $t)
+                            <option value="{{ $t->id }}">{{ $t->name }} {{ $t->lastname }}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
-        </div>
+        @endif
         <div class="col-2">
             <div class="form-group">
                 <button class="btn btn-danger mt-4" id="pdf">PDF</button>
@@ -61,6 +70,7 @@
                             <th>Viernes</th>
                             <th>Desde</th>
                             <th>Hasta</th>
+                            <th>Curso</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -117,11 +127,14 @@
                     data: 'time_to',
                 },
                 {
+                    data: 'course',
+                },
+                {
                     data: 'id'
                 },
             ],
             'fnRowCallback': function( nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-                    $(nRow).find("td:eq(8)").html('<a href="/horarios/horario/'+ aData['id'] +'/edit" class="dt_icons"><i class="typcn typcn-edit"></i></a> &nbsp; <a href="#" class="dt_icons deleteSchedule"><i class="typcn typcn-trash"></i></a>');
+                    $(nRow).find("td:eq(9)").html('<a href="/horarios/horario/'+ aData['id'] +'/edit" class="dt_icons"><i class="typcn typcn-edit"></i></a> &nbsp; <a href="#" class="dt_icons deleteSchedule"><i class="typcn typcn-trash"></i></a>');
                     $(nRow).find("td:eq(0)").text(aData['user']['name'] + ' ' + aData['user']['lastname']);
                     if (aData['l'] == 1) {
                         $(nRow).find("td:eq(1)").html('<span class="text-success tx-24 text-center typcn typcn-input-checked"></span>');
@@ -176,6 +189,9 @@
         $('#pdf').click(function(){
             let profesor = $('#user').val();
             let url = '/horarios/horario/pdf?teacher=' + profesor;
+            @if (auth()->user()->role_id == 2)    
+                let url = '/horarios/horario/pdf';
+            @endif
             $(location).attr('href',url);
         });
     </script>

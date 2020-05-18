@@ -23,12 +23,7 @@
     </div>
     <div class="col-6">
         <div class="form-group @error('date') has-danger @enderror">
-            <div class="input-group date" id="datetimepicker5" data-target-input="nearest">
-                {!! Form::text('date', null, ['class' => 'form-control', 'required', 'data-target' => '#datetimepicker5']) !!}
-                <div class="input-group-append" data-target="#datetimepicker5" data-toggle="datetimepicker">
-                    <div class="input-group-text"><i class="typcn typcn-calendar"></i></div>
-                </div>
-            </div>
+                {!! Form::date('date', $date, ['class' => 'form-control', 'required']) !!}
             
             @error('date')
                 <div class="alert alert-danger">{{ $message }}</div>
@@ -80,7 +75,26 @@
 </div>
 <div class="row">
     <div class="col-4">
+        <div class="form-group @error('assistance') has-danger @enderror">
+            {!! Form::label('assistance', 'Estado de asistencia') !!}
+            <span class="typcn typcn-warning tx-danger tx-16" data-toggle="tooltip" data-placement="top" data-original-title="Este campo es requerido"></span>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="form-group @error('assistance') has-danger @enderror">
+            {!! Form::radio('assistance', '1', true) !!} <span>Asistió Puntual</span>
+            {!! Form::radio('assistance', '2', true) !!} <span>Asistió No Puntual</span>
+            {!! Form::radio('assistance', '3', true) !!} <span>No Asistió</span>
+            @error('assistance')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-4">
         {!! Form::submit('Guardar cambios', ['class' => 'btn btn-primary']); !!}
-        <a href="{{ route('users.index') }}" class="btn btn-light">Cancelar</a>
+        <a href="{{ route('asistence.index') }}" class="btn btn-light">Cancelar</a>
     </div>
 </div>

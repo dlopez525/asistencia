@@ -21,15 +21,25 @@ class AsistenceController extends Controller
 
     public function dt(Request $request)
     {
-        $schedule = ScheduleRegister::with('user')
-        ->where(function ($query) use($request) {
-            if($request->get('teacher') != ''){
-                $query->where('user_id', $request->get('teacher'));
-            }
-            if($request->get('dateOne') != ''){
-                $query->whereBetween('date',  [$request->get('dateOne'), $request->get('dateTwo')]);
-            }
-        })->get();
+        if (auth()->user()->role_id == '2') {
+            $schedule = ScheduleRegister::with('user')
+            ->where(function ($query) use($request) {
+                $query->where('user_id', auth()->user()->id);
+                if($request->get('dateOne') != ''){
+                    $query->whereBetween('date',  [$request->get('dateOne'), $request->get('dateTwo')]);
+                }
+            })->get();
+        } else {
+            $schedule = ScheduleRegister::with('user')
+            ->where(function ($query) use($request) {
+                if($request->get('teacher') != ''){
+                    $query->where('user_id', $request->get('teacher'));
+                }
+                if($request->get('dateOne') != ''){
+                    $query->whereBetween('date',  [$request->get('dateOne'), $request->get('dateTwo')]);
+                }
+            })->get();
+        }
 
         return datatables()->of($schedule)->toJson();
     }
@@ -52,6 +62,7 @@ class AsistenceController extends Controller
             $schedule->date = date('Y-m-d', strtotime($request->date));
             $schedule->entry = $request->entry;
             $schedule->exit = $request->exit; 
+            $schedule->assistance = $request->assistance; 
             $schedule->save();
 
             DB::commit();
@@ -82,7 +93,8 @@ class AsistenceController extends Controller
             $schedule->user_id = $request->user_id;
             $schedule->date = date('Y-m-d', strtotime($request->date));
             $schedule->entry = $request->entry;
-            $schedule->exit = $request->exit; 
+            $schedule->exit = $request->exit;
+            $schedule->assistance = $request->assistance;
             $schedule->update();
 
             DB::commit();
