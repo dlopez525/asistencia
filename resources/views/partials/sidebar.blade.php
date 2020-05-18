@@ -3,7 +3,7 @@
         <a href="index.html" class="az-logo">ama<span>de</span>us</a>
     </div>
     <div class="az-sidebar-loggedin">
-        <div class="az-img-user online"><img src="../img/img1.jpg" alt=""></div>
+        <div class="az-img-user online"><img src="{{ asset('img/user.jpg') }}" alt=""></div>
         <div class="media-body">
             <h6>{{ Auth::user()->name }} {{ Auth::user()->lastname }} <small><i>{{ Auth::user()->username }}</i></small></h6>
             <span>{{ Auth::user()->role->role }}</span>

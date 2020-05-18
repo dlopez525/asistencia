@@ -4,8 +4,6 @@
     <div class="row">
         <div class="col-12">
             <h2 class="az-content-title">Editar Usuario</h2>
-            <div class="az-content-label mg-b-5">Basic DataTable</div>
-            <p class="mg-b-20">Searching, ordering and paging goodness will be immediately added to the table, as shown in this example.</p>
         </div>
     </div>
     <div class="row">

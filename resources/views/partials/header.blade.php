@@ -8,14 +8,14 @@
         </div>
         <div class="az-header-right">
             <div class="dropdown az-profile-menu">
-                <a href="#" class="az-img-user"><img src="../img/img1.jpg" alt=""></a>
+                <a href="#" class="az-img-user"><img src="{{ asset('img/user.jpg') }}" alt=""></a>
                 <div class="dropdown-menu">
                     <div class="az-dropdown-header d-sm-none">
                         <a href="#" class="az-header-arrow"><i class="icon ion-md-arrow-back"></i></a>
                     </div>
                     <div class="az-header-profile">
                         <div class="az-img-user">
-                            <img src="../img/img1.jpg" alt="">
+                            <img src="{{ asset('img/user.jpg') }}" alt="">
                         </div><!-- az-img-user -->
                         <h6>{{ Auth::user()->name }}</h6>
                     </div><!-- az-header-profile -->
