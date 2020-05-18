@@ -128,12 +128,19 @@ class ShedulesController extends Controller
 
     public static function exportPDF(Request $request)
     {
-        $schedules = Schedule::with('user')
-        ->where(function ($query) use($request) {
-            if($request->get('teacher') != ''){
-                $query->where('user_id', $request->get('teacher'));
-            }
-        })->get();
+        if (auth()->user()->role_id == 2) {
+            $schedules = Schedule::with('user')
+            ->where(function ($query) use($request) {
+                $query->where('user_id', auth()->user()->id);
+            })->get();
+        } else {
+            $schedules = Schedule::with('user')
+            ->where(function ($query) use($request) {
+                if($request->get('teacher') != ''){
+                    $query->where('user_id', $request->get('teacher'));
+                }
+            })->get();
+        }
 
         $pdf = PDF::loadView('schedules.pdf', compact('schedules'));
 

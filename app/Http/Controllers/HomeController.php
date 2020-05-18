@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Course;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
@@ -27,30 +28,30 @@ class HomeController extends Controller
      */
     public function index()
     {
-        Carbon::setLocale('es');
-        setlocale(LC_TIME,"es_ES");
-        $days = $this->getDays('tuesday');
+        // Carbon::setLocale('es');
+        // setlocale(LC_TIME,"es_ES");
+        // $days = $this->getDays('tuesday');
 
-        $d = array();
+        // $d = array();
 
-        foreach ($days as $day)
-        {
-            $d[] = $day->format('l d-m-Y');
-        }
+        // foreach ($days as $day)
+        // {
+        //     $d[] = $day->format('l d-m-Y');
+        // }
 
-        // dd($d);
+        $docentes = User::where('role_id', 2)->count();
 
-        return view('home');
+        return view('home', compact('docentes'));
     }
 
-    public function getDays(string $day)
-    {
-        Carbon::setLocale('es');
-        setlocale(LC_TIME,"es_ES");
-        return new \DatePeriod(
-            Carbon::parse("first ". $day ." of this month"),
-            CarbonInterval::week(),
-            Carbon::parse("first ". $day ." of next month")
-        );
-    }
+    // public function getDays(string $day)
+    // {
+    //     Carbon::setLocale('es');
+    //     setlocale(LC_TIME,"es_ES");
+    //     return new \DatePeriod(
+    //         Carbon::parse("first ". $day ." of this month"),
+    //         CarbonInterval::week(),
+    //         Carbon::parse("first ". $day ." of next month")
+    //     );
+    // }
 }

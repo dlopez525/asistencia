@@ -23,6 +23,7 @@
             </div>
         </div>
     @endif
+    <input type="hidden" id="role" value="{{ auth()->user()->role_id}}">
     <div class="row">
         <div class="col-12" id="messages">
             @if (session('info'))
@@ -193,9 +194,9 @@
             var dateOne = dateSpecificOne[2]+'-'+dateSpecificOne[1]+'-'+dateSpecificOne[0];
             var dateTwo = dateSpecificTwo[2]+'-'+dateSpecificTwo[1]+'-'+dateSpecificTwo[0];
             let url = '/horarios/asistencia/pdf?teacher=' + profesor +'&dateOne=' + dateOne + '&dateTwo=' + dateTwo;
-            @if (auth()->user()->role_id == '2')    
-                let url = '/horarios/asistencia/pdf?dateOne=' + dateOne + '&dateTwo=' + dateTwo;
-            @endif
+            if ($('#role').val() == 2) {
+               url = '/horarios/asistencia/pdf?dateOne=' + dateOne + '&dateTwo=' + dateTwo; 
+            }
 
             $(location).attr('href',url);
         });

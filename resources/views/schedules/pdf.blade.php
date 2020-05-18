@@ -2,13 +2,13 @@
     <thead>
         <tr role="row">
             <th width="100px">Profesor</th>
-            <th width="80px">Lunes</th>
-            <th width="80px">Martes</th>
-            <th width="80px">Miercoles</th>
-            <th width="80px">Jueves</th>
-            <th width="80px">Viernes</th>
-            <th width="80px">Desde</th>
-            <th width="80px">Hasta</th>
+            <th width="60px">Lunes</th>
+            <th width="60px">Martes</th>
+            <th width="70px">Miercoles</th>
+            <th width="60px">Jueves</th>
+            <th width="60px">Viernes</th>
+            <th width="60px">Desde</th>
+            <th width="60px">Hasta</th>
             <th width="80px">Curso</th>
         </tr>
     </thead>

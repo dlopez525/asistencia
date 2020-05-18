@@ -22,6 +22,7 @@
             </div>
         </div>
     @endif
+    <input type="hidden" id="role" value="{{ auth()->user()->role_id}}">
     <div class="row">
         <div class="col-12" id="messages">
             @if (session('info'))
@@ -189,9 +190,9 @@
         $('#pdf').click(function(){
             let profesor = $('#user').val();
             let url = '/horarios/horario/pdf?teacher=' + profesor;
-            @if (auth()->user()->role_id == 2)    
-                let url = '/horarios/horario/pdf';
-            @endif
+            if ($('#role').val() == 2) {
+                url = '/horarios/horario/pdf';
+            }
             $(location).attr('href',url);
         });
     </script>

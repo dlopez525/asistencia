@@ -126,15 +126,25 @@ class AsistenceController extends Controller
 
     public static function exportPDF(Request $request)
     {
-        $schedules = ScheduleRegister::with('user')
-        ->where(function ($query) use($request) {
-            if($request->get('teacher') != ''){
-                $query->where('user_id', $request->get('teacher'));
-            }
-            if($request->get('dateOne') != ''){
-                $query->whereBetween('date',  [$request->get('dateOne'), $request->get('dateTwo')]);
-            }
-        })->get();
+        if (auth()->user()->role_id == '2') {
+            $schedules = ScheduleRegister::with('user')
+            ->where(function ($query) use($request) {
+                $query->where('user_id', auth()->user()->id);
+                if($request->get('dateOne') != ''){
+                    $query->whereBetween('date',  [$request->get('dateOne'), $request->get('dateTwo')]);
+                }
+            })->get();
+        } else {
+            $schedules = ScheduleRegister::with('user')
+            ->where(function ($query) use($request) {
+                if($request->get('teacher') != ''){
+                    $query->where('user_id', $request->get('teacher'));
+                }
+                if($request->get('dateOne') != ''){
+                    $query->whereBetween('date',  [$request->get('dateOne'), $request->get('dateTwo')]);
+                }
+            })->get();
+        }
 
         $pdf = PDF::loadView('asistence.pdf', compact('schedules'));
 
